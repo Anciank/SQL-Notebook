@@ -1,0 +1,100 @@
+.header {
+  height: 10%;
+  border-bottom: 3px solid black;
+  
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header img {
+  height: 5%;
+  width: 5%;
+}
+
+.container {
+  padding-top: 10px;
+
+  display: flex;
+}
+
+.side {
+  flex: 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dsSelection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dsSelection select {
+  height: 30px;
+  width: 250px;
+  min-width: 250px;
+  margin: 0 2.5px;
+}
+
+.dsSelection select:hover {
+  color: white;
+  background-color: gray;
+}
+
+.dsSelection select:focus-visible {
+  outline: none;
+}
+
+.fileInput {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  color: black;
+  border-bottom: 2px solid black;
+}
+
+.fileInput:hover {
+  color: black;
+  background-color: gray;
+}
+
+.side input {
+  display: none;
+}
+
+.attributes {
+  margin-top: 5px;
+}
+
+.attributeCard {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.attributeCard:hover {
+  box-shadow: inset 0 0 10px #979696;
+}
+
+.attributeCard img {
+  width: 50%;
+  height: auto;
+}
+
+.attributeHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 2px solid gray;
+}
+
+main {
+  flex: 7
+}
