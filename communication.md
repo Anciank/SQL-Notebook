@@ -15,7 +15,7 @@ Dataset(file) can only be send, remove a dataset is forbbiden. Dataset of id 0 i
 
 ## Send code
 🚀Use { datasetID, scenarioID, cellID, payload(code) } to maintain the main backend structure.
-```json
+```javascript
 {
   datasetID: 1,
   scenarioID:1,
