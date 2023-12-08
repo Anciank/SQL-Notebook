@@ -36,6 +36,7 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
             maxLines: Infinity,
           }}
           value={cellProps.payload}
+          // dont know what happend, editor lock accientally disappeared.
           className="aceEditor"
         />
         <button
