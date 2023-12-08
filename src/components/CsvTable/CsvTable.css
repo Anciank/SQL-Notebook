@@ -1,0 +1,21 @@
+/* CsvTable.css */
+
+.csv-table-container {
+  margin: 20px; /* Adjust margin as needed */
+}
+
+.csv-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px; /* Adjust margin as needed */
+}
+
+.csv-table th, .csv-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.csv-table th {
+  background-color: #f2f2f2;
+}

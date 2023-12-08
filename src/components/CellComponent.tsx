@@ -13,6 +13,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { Cell, updateCell } from "../features/datasetsSlice";
 
 import AddCellComponent from "./AddCellComponent";
+import CsvTable from "./CsvTable/CsvTable"
 
 interface CellComponentProps {
   cellProps: Cell;
@@ -70,7 +71,9 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
             Execute
           </button>
         </div>
-        {cellProps.result !== "" && <pre>{cellProps.result}</pre>}
+        {cellProps.result !== "" && 
+          <CsvTable csvData={cellProps.result} />
+        }
         <AddCellComponent cellProps={cellProps} />
       </div>
     );
@@ -81,7 +84,7 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
 
     return (
       <div className="noteContainer">
-        <textarea name="note" id="0" rows="5" value={cellProps.payload} onChange={(e) => {
+        <textarea name="note" id="0" rows={5} value={cellProps.payload} onChange={(e) => {
           console.log(e.target.value);
           dispatch(updateCell({...cellProps, payload: e.target.value}));         
         }}></textarea>
@@ -98,10 +101,7 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
       <p>Cell type: {cellProps.cellType}</p>
       <p>Cell payload: {cellProps.payload}</p>
       <p>Cell result: </p> */}
-      <p>ID,PRODUCT,PRICE</p>
-      <p>101,Laptop,1200</p>
-      <p>102,Smartphone,800</p>
-      <p>103,Tablet,400</p>
+      <CsvTable csvData={cellProps.result} />
       {/* Add other cell information as needed */}
     </div>
   );
