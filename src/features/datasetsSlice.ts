@@ -29,7 +29,7 @@ const initCell: Cell = {
   cellID: 0,
   datasetID: 0,
   scenarioID: 0,
-  cellType: "",
+  cellType: "dataTable",
   payload: "",
   result: "",
 };

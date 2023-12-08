@@ -71,6 +71,7 @@ function App() {
                 console.log(datasets.findIndex(d => d.datasetName === e.target.value));
                 
                 setSelectedDatasetID(datasets.findIndex(d => d.datasetName === e.target.value));
+                setSelectedScenarioID(0);
 
                 // Send dataset name to "/switchDataset" use POST.
                 axios.post("http://localhost:8080/api/changeJsonFile", e.target.value);
@@ -117,7 +118,7 @@ function App() {
             ))}
             <button onClick={() => dispatch(addScenario(selectedDatasetID))}>Add</button>
           </div>
-          
+
           <ScenarioComponent scenarioProps={datasets[selectedDatasetID].datasetScenarios[selectedScenarioID]} /> 
 
         </main>
