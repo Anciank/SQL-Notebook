@@ -1,11 +1,18 @@
 import React, { useState } from "react";
+
+import "./CellComponent.css"
+
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-sql";
+
 import axios from "axios";
+
 import { useAppDispatch } from "../redux/hooks";
-import { Cell, addCell, updateCell } from "../features/datasetsSlice";
+import { Cell, updateCell } from "../features/datasetsSlice";
+
+import AddCellComponent from "./AddCellComponent";
 
 interface CellComponentProps {
   cellProps: Cell;
@@ -19,6 +26,7 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
     return (
       <div className="codeContianer">
         <AceEditor
+          width="100%"
           mode="sql"
           theme="github"
           onChange={(e) => {
@@ -39,47 +47,50 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
           // dont know what happend, editor lock accientally disappeared.
           className="aceEditor"
         />
-        <button
-          onClick={() => {
-            axios
-              .post(
-                "http://localhost:8080/api/sendDataToBackend",
-                JSON.stringify({ sql: code })
-              )
-              .then((response) => {
-                // Assuming setResult is a state update function
-                const newCell = { ...cellProps, result: response.data };
-                dispatch(updateCell(newCell));
-              })
-              .catch((error) => {
-                console.error("Error:", error);
-              });
-          }}
-        >
-          Execute
-        </button>
-        <br />
-        <p>{cellProps.result}</p>
-        Add a cell
-        <button
-          onClick={() => {
-            dispatch(
-              addCell({
-                datasetID: cellProps.datasetID,
-                scenarioID: cellProps.scenarioID,
-                cellID: cellProps.cellID,
-                cellType: "code",
-                payload: "",
-                result: "",
-              })
-            );
-          }}
-        >
-          SQL
-        </button>
+        <div className="cellButtons">
+          <button
+            onClick={() => {
+              axios
+                .post(
+                  "http://localhost:8080/api/sendDataToBackend",
+                  JSON.stringify({ sql: code })
+                )
+                .then((response) => {
+                  // Assuming setResult is a state update function
+                  console.log(response.data);
+          
+                  const newCell = { ...cellProps, result: response.data };
+                  dispatch(updateCell(newCell));
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
+            }}
+          >
+            Execute
+          </button>
+        </div>
+        {cellProps.result !== "" && <pre>{cellProps.result}</pre>}
+        <AddCellComponent cellProps={cellProps} />
       </div>
     );
   }
+
+  if (cellProps.cellType === "note") {
+    const dispatch = useAppDispatch();
+
+    return (
+      <div className="noteContainer">
+        <textarea name="note" id="0" rows="5" value={cellProps.payload} onChange={(e) => {
+          console.log(e.target.value);
+          dispatch(updateCell({...cellProps, payload: e.target.value}));         
+        }}></textarea>
+
+        <AddCellComponent cellProps={cellProps} />
+      </div>
+    )
+  }
+
   return (
     <div>
       {/* <h3>Cell Information</h3>

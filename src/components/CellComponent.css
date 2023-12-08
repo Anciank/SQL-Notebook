@@ -1,0 +1,8 @@
+.noteContainer textarea{
+  width: 100%;
+}
+
+.cellButtons {
+  display: flex;
+  justify-content: end;
+}

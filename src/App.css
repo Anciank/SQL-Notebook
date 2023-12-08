@@ -16,6 +16,7 @@
   padding-top: 10px;
 
   display: flex;
+  gap: 10px;
 }
 
 .side {
@@ -97,4 +98,27 @@
 
 main {
   flex: 7
+}
+
+.scenarioButtons {
+  display: flex;
+  justify-content: start;
+  gap: 5px;
+}
+
+.scenarioButtons button {
+  border: none;
+  border-bottom: 2px solid black;
+
+  height: 30px;
+}
+
+.scenarioButtons button:hover {
+  background-color: gray;
+}
+
+
+.scenarioButtons button:focus {
+  border-bottom: 2px solid white;
+  background-color: gray; 
 }
