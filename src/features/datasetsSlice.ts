@@ -31,7 +31,11 @@ const initCell: Cell = {
   scenarioID: 0,
   cellType: "dataTable",
   payload: "",
-  result: "",
+  result: `ID,PRODUCT,PRICE
+  101,Laptop,1200
+  102,Smartphone,800
+  103,Tablet,400
+  `, // fake data table
 };
 
 const initScenario: Scenario = {
