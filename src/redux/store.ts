@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import datasetsReducer from "../features/datasetsSlice";
+import scenarioReducer from "../features/scenariosSlice"
 
 const store = configureStore({
   reducer: {
-    datasets: datasetsReducer
+    datasets: datasetsReducer,
+    scenarioSlice: scenarioReducer
   },
 });
 

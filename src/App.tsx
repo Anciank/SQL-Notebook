@@ -7,33 +7,45 @@ import add from "./assets/plus-solid.svg";
 
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { addDataset, addScenario } from "./features/datasetsSlice";
+import ScenarioComponent from "./components/ScenarioComponent";
+import axios from "axios";
 
 function App() {
-  const datasets = useAppSelector(state => state.datasets.datasetNames);
+  const datasets = useAppSelector(state => state.datasets);
 
-  const [datasets, setDatasets] = useState(mainDatasets);
-  const [selectedDataset, setSelectedDataset] = useState(mainDatasets[0]);
-  const [selectedScenario, setSelectedScenario] = useState(mainScenarios[0]);
+  const [selectedDatasetID, setSelectedDatasetID] = useState(0);
+  const [selectedScenarioID, setSelectedScenarioID] = useState(0);
 
   const dispatch = useAppDispatch();
 
-  const handleFileChange = (e: any) => {
-    const selectedFile = e.target.files[0];
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const selectedFile = e.target.files?.[0];
 
-    // Send file and file id to backend
+      if (selectedFile) {
+        // Send the file to the backend
+        const formData = new FormData();
+        formData.append("file", selectedFile);
 
-    console.log(datasets.length);
+        // Adjust the URL based on your backend endpoint
+        const response = await axios.post("http://localhost:8080/api/addDataset", formData);
 
-    const newDataset: Dataset = {
-      id: datasets.length,
-      fileName: selectedFile.name,
-      file: selectedFile,
-    };
+        // Assuming the response contains some data you want to use
+        const responseData = response.data;
+        console.log(responseData);
 
-    setDatasets([...datasets, newDataset]);
-
-    // Reset the file input
-    e.target.value = null;
+        // Dispatch an action to update state with the dataset name
+        dispatch(addDataset(selectedFile.name));
+      }
+    } catch (error) {
+      console.error("Error handling file change:", error);
+    } finally {
+      // Reset the file input
+      if (e.target) {
+        e.target.value = "";
+      }
+    }
   };
 
   return (
@@ -54,19 +66,17 @@ function App() {
             <select
               name="dataset"
               id="dataset"
-              value={selectedDataset.id}
+              value={datasets[selectedDatasetID].datasetName}
               onChange={(e) => {
-                const selectedDatasetId = parseInt(e.target.value, 10);
-                const selectedDatasetTemp = datasets[selectedDatasetId]
-              
-                if (selectedDatasetTemp !== selectedDataset) {
-                  setSelectedDataset(selectedDatasetTemp);
-                }
+                setSelectedDatasetID(datasets.findIndex(d => d.datasetName === e.target.value));
+
+                // Send dataset name to "/switchDataset" use POST.
+                axios.post("http://localhost:8080/api/changeJsonFile", e.target.value);
               }}
             >
-              {datasets.map((dataset) => (
-                <option key={dataset.id} value={dataset.id}>
-                  {dataset.fileName}
+              {datasets.map((dataset, id) => (
+                <option key={id} value={dataset.datasetName}>
+                  {dataset.datasetName}
                 </option>
               ))}
             </select>
@@ -81,7 +91,7 @@ function App() {
             </label>
           </div>
           {/* Attributes */}
-          {selectedDataset.file && (
+          { (
             <div className="attributes">
               <div className="attributeCard">
                 <div className="attributeHeader">Attribute 1:</div>
@@ -98,12 +108,15 @@ function App() {
         <main>
           {/* Implement this, switch between scenarios */}
           <div className="scenarioButtons">
-            {mainScenarios.map((s) => (
-              <button key={s.scenarioID} onClick={() => setSelectedScenario(s)}>
+            {datasets[selectedDatasetID].datasetScenarios.map((s) => (
+              <button key={s.scenarioID} onClick={() => setSelectedScenarioID(s.scenarioID)}>
                 {s.scenarioName}
               </button>
             ))}
+            <button onClick={() => dispatch(addScenario(selectedDatasetID))}>Add</button>
           </div>
+
+          <ScenarioComponent scenarioProps={datasets[selectedDatasetID].datasetScenarios[selectedScenarioID]} /> 
 
         </main>
       </div>
