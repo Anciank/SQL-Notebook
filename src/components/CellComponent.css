@@ -1,3 +1,7 @@
+.noteContainer {
+  margin-top: 5px;
+}
+
 .noteContainer textarea{
   width: 100%;
 }
