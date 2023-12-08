@@ -23,8 +23,8 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
           theme="github"
           onChange={(e) => {
             setCode(e);
-            
-            dispatch(updateCell({...cellProps, payload: e}));
+
+            dispatch(updateCell({ ...cellProps, payload: e }));
           }}
           name="UNIQUE_ID_OF_DIV"
           editorProps={{ $blockScrolling: true }}
@@ -33,25 +33,26 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
             enableLiveAutocompletion: true,
             showLineNumbers: true,
             tabSize: 2,
-            maxLines: Infinity
+            maxLines: Infinity,
           }}
           value={cellProps.payload}
           className="aceEditor"
         />
         <button
           onClick={() => {
-            axios.post(
-              "http://localhost:8080/api/sendDataToBackend",
-              JSON.stringify({ sql: code })
-            )
-            .then(response => {
-              // Assuming setResult is a state update function
-              const newCell = {...cellProps, result: response.data};
-              dispatch(updateCell(newCell));
-            })
-            .catch(error => {
-              console.error("Error:", error);
-            });
+            axios
+              .post(
+                "http://localhost:8080/api/sendDataToBackend",
+                JSON.stringify({ sql: code })
+              )
+              .then((response) => {
+                // Assuming setResult is a state update function
+                const newCell = { ...cellProps, result: response.data };
+                dispatch(updateCell(newCell));
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
           }}
         >
           Execute
@@ -68,7 +69,7 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
                 cellID: cellProps.cellID,
                 cellType: "code",
                 payload: "",
-                result: ""
+                result: "",
               })
             );
           }}
@@ -80,11 +81,15 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
   }
   return (
     <div>
-      <h3>Cell Information</h3>
+      {/* <h3>Cell Information</h3>
       <p>Cell ID: {cellProps.cellID}</p>
       <p>Cell type: {cellProps.cellType}</p>
       <p>Cell payload: {cellProps.payload}</p>
-      <p>Cell result: </p>
+      <p>Cell result: </p> */}
+      <p>ID,PRODUCT,PRICE</p>
+      <p>101,Laptop,1200</p>
+      <p>102,Smartphone,800</p>
+      <p>103,Tablet,400</p>
       {/* Add other cell information as needed */}
     </div>
   );

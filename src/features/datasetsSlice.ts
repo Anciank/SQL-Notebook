@@ -13,6 +13,7 @@ export interface Cell {
 export interface Scenario {
   scenarioName: string;
   scenarioID: number;
+  datasetID: number;
   scenarioType: string;
   cells: Cell[];
 }
@@ -28,7 +29,7 @@ const initCell: Cell = {
   cellID: 0,
   datasetID: 0,
   scenarioID: 0,
-  cellType: "code",
+  cellType: "",
   payload: "",
   result: "",
 };
@@ -36,29 +37,39 @@ const initCell: Cell = {
 const initScenario: Scenario = {
   scenarioName: "Data Table",
   scenarioID: 0,
+  datasetID: 0,
   scenarioType: "dataTable",
   cells: [initCell],
 };
 
-const initialState: Dataset[] = [{datasetID: 0, datasetName: "README", datasetScenarios: [initScenario]}]
+const initialState: Dataset[] = [
+  { datasetID: 0, datasetName: "README", datasetScenarios: [initScenario] },
+];
 
 const datasetsSlice = createSlice({
   name: "datasets",
   initialState,
   reducers: {
     addDataset: (state, action: PayloadAction<string>) => {
-      state.push({datasetID: state.length, datasetName: action.payload, datasetScenarios: [initScenario]});
+      state.push({
+        datasetID: state.length,
+        datasetName: action.payload,
+        datasetScenarios: [{ ...initScenario, datasetID: state.length, cells: [{datasetID: state.length, cellID: 0, scenarioID: 0, cellType: "dataTable", payload:"", result:""}]}],
+      });
     },
     addScenario: (state, action: PayloadAction<number>) => {
       state[action.payload].datasetScenarios.push({
-        scenarioName: "Scenario ".concat(state.length.toString()),
-        scenarioID: state.length,
+        scenarioName: "Scenario ".concat(
+          state[action.payload].datasetScenarios.length.toString()
+        ),
+        scenarioID: state[action.payload].datasetScenarios.length,
+        datasetID: action.payload,
         scenarioType: "",
         cells: [
           {
             cellID: 0,
-            datasetID:action.payload,
-            scenarioID: state.length,
+            datasetID: action.payload,
+            scenarioID: state[action.payload].datasetScenarios.length,
             cellType: "code",
             payload: "",
             result: "",
@@ -69,10 +80,14 @@ const datasetsSlice = createSlice({
     addCell: (state, action: PayloadAction<Cell>) => {
       const { scenarioID, cellID, cellType } = action.payload;
 
-      const firstPart = state[action.payload.datasetID].datasetScenarios[action.payload.scenarioID].cells.slice(0, cellID + 1);
+      const firstPart = state[action.payload.datasetID].datasetScenarios[
+        action.payload.scenarioID
+      ].cells.slice(0, cellID + 1);
       console.log(firstPart.length);
-      
-      const secondPart = state[action.payload.datasetID].datasetScenarios[action.payload.scenarioID].cells.slice(cellID + 1);
+
+      const secondPart = state[action.payload.datasetID].datasetScenarios[
+        action.payload.scenarioID
+      ].cells.slice(cellID + 1);
 
       const updatedfirstPart = firstPart.concat({
         cellID: cellID + 1,
@@ -84,18 +99,22 @@ const datasetsSlice = createSlice({
       });
 
       console.log(updatedfirstPart);
-      
 
       secondPart.forEach((c) => (c.cellID = c.cellID + 1));
 
-      state[action.payload.datasetID].datasetScenarios[action.payload.scenarioID].cells = updatedfirstPart.concat(secondPart);
+      state[action.payload.datasetID].datasetScenarios[
+        action.payload.scenarioID
+      ].cells = updatedfirstPart.concat(secondPart);
     },
     updateCell: (state, action: PayloadAction<Cell>) => {
-      state[action.payload.datasetID].datasetScenarios[action.payload.scenarioID].cells[action.payload.cellID] = action.payload;
+      state[action.payload.datasetID].datasetScenarios[
+        action.payload.scenarioID
+      ].cells[action.payload.cellID] = action.payload;
     },
   },
 });
 
-export const { addDataset, addScenario, addCell, updateCell } = datasetsSlice.actions;
+export const { addDataset, addScenario, addCell, updateCell } =
+  datasetsSlice.actions;
 
 export default datasetsSlice.reducer;

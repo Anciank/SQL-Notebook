@@ -68,6 +68,8 @@ function App() {
               id="dataset"
               value={datasets[selectedDatasetID].datasetName}
               onChange={(e) => {
+                console.log(datasets.findIndex(d => d.datasetName === e.target.value));
+                
                 setSelectedDatasetID(datasets.findIndex(d => d.datasetName === e.target.value));
 
                 // Send dataset name to "/switchDataset" use POST.
@@ -108,14 +110,14 @@ function App() {
         <main>
           {/* Implement this, switch between scenarios */}
           <div className="scenarioButtons">
-            {datasets[selectedDatasetID].datasetScenarios.map((s) => (
-              <button key={s.scenarioID} onClick={() => setSelectedScenarioID(s.scenarioID)}>
+            {datasets[selectedDatasetID].datasetScenarios.map((s, index) => (
+              <button key={index} onClick={() => setSelectedScenarioID(s.scenarioID)}>
                 {s.scenarioName}
               </button>
             ))}
             <button onClick={() => dispatch(addScenario(selectedDatasetID))}>Add</button>
           </div>
-
+          
           <ScenarioComponent scenarioProps={datasets[selectedDatasetID].datasetScenarios[selectedScenarioID]} /> 
 
         </main>
