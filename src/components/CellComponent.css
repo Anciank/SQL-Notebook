@@ -10,3 +10,18 @@
   display: flex;
   justify-content: end;
 }
+
+.cellButtons button {
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.cellButtons button:hover {
+  background-color: gray;
+}
+
+
+.cellButtons button:focus {
+  border-bottom: 2px solid white;
+  background-color: gray; 
+}

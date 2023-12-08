@@ -12,7 +12,7 @@ import axios from "axios";
 import { useAppDispatch } from "../redux/hooks";
 import { Cell, updateCell } from "../features/datasetsSlice";
 
-import AddCellComponent from "./AddCellComponent";
+import AddCellComponent from "./AddCellComponent/AddCellComponent";
 import CsvTable from "./CsvTable/CsvTable"
 
 interface CellComponentProps {

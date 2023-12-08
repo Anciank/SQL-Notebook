@@ -1,0 +1,20 @@
+.addButtons {
+  display: flex;
+  justify-content: start;
+  gap: 3px;
+}
+
+.addButtons button {
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.addButtons button:hover {
+  background-color: gray;
+}
+
+
+.addButtons button:focus {
+  border-bottom: 2px solid white;
+  background-color: gray; 
+}

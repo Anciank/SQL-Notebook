@@ -1,5 +1,7 @@
-import { Cell, addCell } from "../features/datasetsSlice";
-import { useAppDispatch } from "../redux/hooks";
+import { Cell, addCell } from "../../features/datasetsSlice";
+import { useAppDispatch } from "../../redux/hooks";
+
+import "./AddCellComponent.css"
 
 interface AddCellComponentProps {
   cellProps: Cell;
@@ -9,7 +11,7 @@ const AddCellComponent: React.FC<AddCellComponentProps> = ({ cellProps }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div>
+    <div className="addButtons">
       + 
         <button
           onClick={() => {
