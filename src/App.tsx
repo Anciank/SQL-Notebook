@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { addDataset, addScenario } from "./features/datasetsSlice";
 import ScenarioComponent from "./components/ScenarioComponent";
 import axios from "axios";
+import SqlGenerator from "./components/SQLGenerater";
 
 function App() {
   const datasets = useAppSelector(state => state.datasets);
@@ -123,6 +124,7 @@ function App() {
 
         </main>
       </div>
+        <SqlGenerator />
     </>
   );
 }

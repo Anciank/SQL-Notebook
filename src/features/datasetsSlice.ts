@@ -18,10 +18,11 @@ export interface Scenario {
   cells: Cell[];
 }
 
-interface Dataset {
+export interface Dataset {
   datasetID: number;
   datasetName: string;
   datasetScenarios: Scenario[];
+  columnNames: string[];
 }
 
 // Constructing initialState
@@ -47,7 +48,7 @@ const initScenario: Scenario = {
 };
 
 const initialState: Dataset[] = [
-  { datasetID: 0, datasetName: "README", datasetScenarios: [initScenario] },
+  { datasetID: 0, datasetName: "README", datasetScenarios: [initScenario], columnNames: ["column 1", "column 2"] },
 ];
 
 const datasetsSlice = createSlice({
@@ -59,6 +60,7 @@ const datasetsSlice = createSlice({
         datasetID: state.length,
         datasetName: action.payload,
         datasetScenarios: [{ ...initScenario, datasetID: state.length, cells: [{datasetID: state.length, cellID: 0, scenarioID: 0, cellType: "dataTable", payload:"", result:""}]}],
+        columnNames: [""]
       });
     },
     addScenario: (state, action: PayloadAction<number>) => {
