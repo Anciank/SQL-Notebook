@@ -9,7 +9,11 @@
 
 .header img {
   height: 5%;
-  width: 5%;
+  width: 5%;;
+}
+
+.header button{
+  
 }
 
 .container {

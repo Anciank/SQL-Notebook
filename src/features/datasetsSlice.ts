@@ -55,6 +55,9 @@ const datasetsSlice = createSlice({
   name: "datasets",
   initialState,
   reducers: {
+    setState: (state, action: PayloadAction<Dataset[]>) => {
+      return action.payload;
+    },
     addDataset: (state, action: PayloadAction<string>) => {
       state.push({
         datasetID: state.length,
@@ -64,7 +67,7 @@ const datasetsSlice = createSlice({
       });
     },
     addScenario: (state, action: PayloadAction<number>) => {
-      state[action.payload].datasetScenarios.push({
+        state[action.payload].datasetScenarios.push({
         scenarioName: "Scenario ".concat(
           state[action.payload].datasetScenarios.length.toString()
         ),
@@ -82,6 +85,16 @@ const datasetsSlice = createSlice({
           },
         ],
       });
+    },
+    removeScenario: (state, action: PayloadAction<Scenario>) => {
+      if (action.payload.scenarioID === 0) {
+        return state;
+      }
+      const removedScenarios:Scenario[] = state[action.payload.datasetID].datasetScenarios.filter(s => s.scenarioID !== action.payload.scenarioID);
+      const removedDataset:Dataset = {...state[action.payload.datasetID], datasetScenarios: removedScenarios};
+      const newState = state;
+      newState[action.payload.datasetID] = removedDataset;
+      return newState;
     },
     addCell: (state, action: PayloadAction<Cell>) => {
       const { scenarioID, cellID, cellType } = action.payload;
@@ -120,7 +133,7 @@ const datasetsSlice = createSlice({
   },
 });
 
-export const { addDataset, addScenario, addCell, updateCell } =
+export const { setState, addDataset, addScenario, removeScenario, addCell, updateCell } =
   datasetsSlice.actions;
 
 export default datasetsSlice.reducer;

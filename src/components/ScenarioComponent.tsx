@@ -7,10 +7,7 @@ interface ScenarioComponentProps {
 }
 
 const ScenarioComponent: React.FC<ScenarioComponentProps> = ({ scenarioProps }) => {
-  console.log(scenarioProps);
   const cells = scenarioProps.cells;
-  
-
 
   return (
     <div>
