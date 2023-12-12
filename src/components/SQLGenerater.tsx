@@ -12,7 +12,7 @@ interface SelectedOptions {
   windowFunction: string;
 }
 
-const SqlGenerator: React.FC<Dataset> = ({datasetID, datasetName, datasetScenarios, columnNames}) => {
+const SqlGenerator: React.FC<Dataset> = ({datasetID, datasetName, datasetScenarios, columnNames = ['1','2','3']}) => {
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
     select: [],
     from: '',
@@ -50,82 +50,122 @@ const SqlGenerator: React.FC<Dataset> = ({datasetID, datasetName, datasetScenari
     <div style={{display: "flex", flexDirection: "column"}}>
       <label>
         Select Columns:
-        <input
-          type="text"
-          value={selectedOptions.select.join(', ')}
-          onChange={(e) => {
-            const selectedColumns = e.target.value.split(',').map((col) => col.trim());
-            setSelectedOptions((prevOptions) => ({ ...prevOptions, select: selectedColumns }));
-          }}
-        />
+        <select
+    
+      value={selectedOptions.select}
+      onChange={(e) => {
+        const selectedColumns = Array.from(e.target.selectedOptions, (option) => option.value);
+        setSelectedOptions((prevOptions) => ({ ...prevOptions, select: selectedColumns }));
+      }}
+    >
+    {columnNames.map((columnName) => (
+      <option key={columnName} value={columnName}>
+        {columnName}
+      </option>
+    ))}
+  </select>
       </label>
   
       <label>
         From:
-        <input
-          type="text"
-          value={selectedOptions.from}
-          onChange={(e) => {
-            setSelectedOptions((prevOptions) => ({ ...prevOptions, from: e.target.value }));
-          }}
-        />
+        <select
+    value={selectedOptions.from}
+    onChange={(e) => {
+      const selectedFrom = e.target.value;
+      setSelectedOptions((prevOptions) => ({ ...prevOptions, from: selectedFrom }));
+    }}
+  >
+    {columnNames.map((columnName) => (
+      <option key={columnName} value={columnName}>
+        {columnName}
+      </option>
+    ))}
+  </select>
       </label>
   
       <label>
         Where:
-        <input
-          type="text"
-          value={selectedOptions.where}
-          onChange={(e) => {
-            setSelectedOptions((prevOptions) => ({ ...prevOptions, where: e.target.value }));
-          }}
-        />
+        <select
+    value={selectedOptions.where}
+    onChange={(e) => {
+      const selectedWhere = e.target.value;
+      setSelectedOptions((prevOptions) => ({ ...prevOptions,where: selectedWhere }));
+    }}
+  >
+    {columnNames.map((columnName) => (
+      <option key={columnName} value={columnName}>
+        {columnName}
+      </option>
+    ))}
+  </select>
       </label>
   
       <label>
         Group By:
-        <input
-          type="text"
-          value={selectedOptions.groupBy.join(', ')}
-          onChange={(e) => {
-            const groupByOptions = e.target.value.split(',').map((group) => group.trim());
-            setSelectedOptions((prevOptions) => ({ ...prevOptions, groupBy: groupByOptions }));
-          }}
-        />
+        <select
+    value={selectedOptions.groupBy}
+    onChange={(e) => {
+      const selectedgroupBy = Array.from(e.target.selectedOptions, (option) => option.value);
+      setSelectedOptions((prevOptions) => ({ ...prevOptions, groupBy: selectedgroupBy }));
+    }}
+  >
+    {columnNames.map((columnName) => (
+      <option key={columnName} value={columnName}>
+        {columnName}
+      </option>
+    ))}
+  </select>
       </label>
   
       <label>
         Order By:
-        <input
-          type="text"
-          value={selectedOptions.orderBy.join(', ')}
-          onChange={(e) => {
-            const orderByOptions = e.target.value.split(',').map((order) => order.trim());
-            setSelectedOptions((prevOptions) => ({ ...prevOptions, orderBy: orderByOptions }));
-          }}
-        />
+        <select
+    value={selectedOptions.orderBy}
+    onChange={(e) => {
+      const selectedorderBy = Array.from(e.target.selectedOptions, (option) => option.value);
+      setSelectedOptions((prevOptions) => ({ ...prevOptions, orderBy: selectedorderBy }));
+    }}
+  >
+    {columnNames.map((columnName) => (
+      <option key={columnName} value={columnName}>
+        {columnName}
+      </option>
+    ))}
+  </select>
       </label>
   
       <label>
         Aggregate Function:
-        <input
-          type="text"
-          value={selectedOptions.aggregateFunction}
-          onChange={(e) => {
-            setSelectedOptions((prevOptions) => ({ ...prevOptions, aggregateFunction: e.target.value }));
-          }}
-        />
+        <select
+    value={selectedOptions.aggregateFunction}
+    onChange={(e) => {
+      const selectedaggregateFunction = e.target.value;
+      setSelectedOptions((prevOptions) => ({ ...prevOptions, aggregateFunction: selectedaggregateFunction }));
+    }}
+  >
+    {columnNames.map((columnName) => (
+      <option key={columnName} value={columnName}>
+        {columnName}
+      </option>
+    ))}
+  </select>
       </label>
   
       <label>
         Window Function:
-        <input
-          type="text"
-          value={selectedOptions.windowFunction}
-          onChange={(e) => {
-            setSelectedOptions((prevOptions) => ({ ...prevOptions, windowFunction: e.target.value }));
-          }}
-        />
+        <select
+    value={selectedOptions.windowFunction}
+    onChange={(e) => {
+      const selectedwindowFunction = e.target.value;
+      setSelectedOptions((prevOptions) => ({ ...prevOptions, windowFunction: selectedwindowFunction }));
+    }}
+  >
+    {columnNames.map((columnName) => (
+      <option key={columnName} value={columnName}>
+        {columnName}
+      </option>
+    ))}
+  </select>
       </label>
   
       <button onClick={() => console.log(generateSql())}>Generate SQL</button>
