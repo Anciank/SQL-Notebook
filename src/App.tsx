@@ -135,7 +135,7 @@ function App() {
     <>
       <div className="header">
         <img src={logo} alt="SQL Notebook" />
-        <h1>SQL Notebook</h1>
+        <h1>Code Notebook</h1>
 
         {/* Import button */}
         <label className="import">
@@ -151,57 +151,7 @@ function App() {
 
 
       <div className="container">
-        {/* Sidebar */}
-        <div className="side">
-          {/* Dataset selection */}
-          <div className="dsSelection">
-            <label htmlFor="">
-              <b>Dataset:</b>
-            </label>
-            <select
-              name="dataset"
-              id="dataset"
-              value={datasets[selectedDatasetID].datasetName}
-              onChange={(e) => {
-                console.log(datasets.findIndex(d => d.datasetName === e.target.value));
-                
-                setSelectedDatasetID(datasets.findIndex(d => d.datasetName === e.target.value));
-                setSelectedScenarioID(0);
-
-                // Send dataset name to "/switchDataset" use POST.
-                axios.post("http://localhost:8080/api/changeJsonFile", e.target.value);
-              }}
-            >
-              {datasets.map((dataset, id) => (
-                <option key={id} value={dataset.datasetName}>
-                  {dataset.datasetName}
-                </option>
-              ))}
-            </select>
-
-            <label className="fileInput" htmlFor="fileInput">
-              <img src={add} alt="" />
-              <input
-                type="file"
-                id="fileInput"
-                onChange={(e) => handleFileChange(e)}
-              />
-            </label>
-          </div>
-          {/* Attributes */}
-          { (
-            <div className="attributes">
-              <div className="attributeCard">
-                <div className="attributeHeader">Attribute 1:</div>
-                <img src={attibutePlot1} alt="" />
-              </div>
-              <div className="attributeCard">
-                <div className="attributeHeader">Attribute 2:</div>
-                <img src={attibutePlot2} alt="" />
-              </div>
-            </div>
-          )}
-        </div>
+        
         {/* Main */}
         {isLoading ? <main>
           <h1>Loading...</h1>
@@ -224,7 +174,7 @@ function App() {
 
         </main>}
       </div>
-        <SqlGenerator {...datasets[selectedDatasetID]} />
+        {/* <SqlGenerator {...datasets[selectedDatasetID]} /> */}
     </>
   );
 }
