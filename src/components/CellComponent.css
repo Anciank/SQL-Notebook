@@ -25,3 +25,8 @@
   border-bottom: 2px solid white;
   background-color: gray; 
 }
+
+.codeContianer {
+  border: 2px solid black;
+  margin-top: 5px;
+}

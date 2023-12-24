@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./CellComponent.css"
 
 import AceEditor from "react-ace";
+import MonacoEditor from 'react-monaco-editor';
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-sql";
@@ -24,9 +25,29 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
     const [code, setCode] = useState<string>("");
     const dispatch = useAppDispatch();
 
+    function editorDidMount(editor: { focus: () => void; }, monaco: any) {
+      console.log('editorDidMount', editor);
+      editor.focus();
+    }
+    function onChange(newValue: React.SetStateAction<string>, e: any) {
+      console.log('onChange', newValue, e);
+
+      setCode(newValue);
+      dispatch(updateCell({ ...cellProps, payload: newValue })); 
+    }
+
+    const options = {
+      selectOnLineNumbers: true,
+      roundedSelection: false,
+      readOnly: false,
+      cursorStyle: "line",
+      automaticLayout: false,
+    };
+
     return (
       <div className="codeContianer">
         <AceEditor
+          style={{ display: "none" }}
           width="100%"
           mode="sql"
           theme="github"
@@ -47,6 +68,16 @@ const CellComponent: React.FC<CellComponentProps> = ({ cellProps }) => {
           value={cellProps.payload}
           // dont know what happend, editor lock accientally disappeared.
           className="aceEditor"
+        />
+        <MonacoEditor
+          width="100%"
+          height="150"
+          language="javascript"
+          theme="vs-light"
+          value={code}
+          options={options}
+          onChange={onChange}
+          editorDidMount={editorDidMount}
         />
         <div className="cellButtons">
           <button

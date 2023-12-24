@@ -164,7 +164,9 @@ function App() {
                   {s.scenarioName}
                 </button>
 
-                <button onClick={() => dispatch(removeScenario(s))}>x</button>
+                <button onClick={() => {
+                  setSelectedScenarioID(selectedScenarioID - 1);
+                  dispatch(removeScenario(s))}}>x</button>
               </div>
             ))}
             <button onClick={() => dispatch(addScenario(selectedDatasetID))}>Add</button>

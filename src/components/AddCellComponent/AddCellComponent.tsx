@@ -27,7 +27,7 @@ const AddCellComponent: React.FC<AddCellComponentProps> = ({ cellProps }) => {
             );
           }}
         >
-          SQL
+          Code
         </button>
         <button onClick={() => {
           dispatch(
